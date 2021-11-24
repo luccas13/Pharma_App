@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+// import { MaterialCommunityIcons } from "@expo/vector-icons"; // https://materialdesignicons.com/
+// import { Icon } from "react-native-elements";
+
+// views
+import Home from "./views/Home";
+import Productos from './views/Productos';
+import Detail from './views/Detail';
+// contexts
+import { UserProvider } from './contexts/UsersContext';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <UserProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='PRODUCTS' >
+          <Stack.Screen name='PRODUCTS' component={Home} 
+            options={({navigation}) => ({ 
+              title: "Productos",
+              // headerRight: () => (
+              //   <Icon 
+              //   style={{paddingRight: 10}}
+              //   color="green"
+              //   name="plus" 
+              //   type="material-community" 
+              //   size={35}
+              //   onPress={()=> navigation.navigate('ADD-EDIT', {create: true})}/>
+              //   ),
+            })}
+          />
+          <Stack.Screen name='ADD-EDIT' component={Productos} options={{ title: "Agregar/Editar Producto" }}/>
+          <Stack.Screen name='DETAIL' component={Detail} options={{ title: "Detalle del producto" }}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
