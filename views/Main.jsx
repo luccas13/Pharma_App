@@ -17,6 +17,7 @@ import {
   Divider,
   Icon,
 } from 'native-base';
+import Product from './Product';
 const Drawer = createDrawerNavigator();
 function Component(props) {
   console.log(props);
@@ -32,7 +33,7 @@ function Component(props) {
 
 const mainViews = [
   { name: 'Caja', icon: 'cart', component: Component },
-  { name: 'Product', icon: 'medical-bag', component: Component },
+  { name: 'Productos', icon: 'medical-bag', component: Product },
   { name: 'ReadQR', icon: 'qrcode', component: QrReader2 },
 ];
 
