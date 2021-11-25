@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const url = "http://localhost:4000/usuarios"
+const url = "https://api.fgdev.ar/pharma/product"
 
-export const getUser = async () => {
+export const getProduct = async () => {
 
     try {
         const res = await axios.get(url);
@@ -13,33 +13,50 @@ export const getUser = async () => {
     }
 }
 
-export const postUser = async (data) => {
+export const getProductById = async (id) => {
 
     try {
-        await axios.post(`${url}`, data);
-        return ({message: "usuario creado."});
+        const res = await axios.get(url + "/" + id,);
+        return res.data
     }
     catch (err) {
         return err;
     }
 }
 
-export const putUser = async (id, data) => {
+export const deleteProduct = async (id, token) => {
 
     try {
-        await axios.put(`${url}/${id}`, data);
-        return ({message: "usuario editado."});
+        await axios.delete(url + "/" + id, {
+            headers: { authorization: token },
+        });
+        return {message: "Producto borrado."};
     }
     catch (err) {
         return err;
     }
 }
 
-export const deleteUser = async (id) => {
+export const createProduct = async (data, token) => {
 
     try {
-        await axios.delete(`${url}/${id}`);
-        return ({message: "usuario eliminado."});
+        await axios.post(url, data, {
+            headers: { authorization: token },
+        });
+        return {message: "Producto creado."};
+    }
+    catch (err) {
+        return err;
+    }
+}
+
+export const uploadProduct = async (data, token) => {
+
+    try {
+        await axios.put(url + "/" + id, data, {
+            headers: { authorization: token },
+        });
+        return {message: "Producto editado."};
     }
     catch (err) {
         return err;
