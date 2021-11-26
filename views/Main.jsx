@@ -1,5 +1,5 @@
 import * as React from 'react';
-import QrReader2 from '../views/QrReader2';
+import QrReader from '../views/QrReader';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -31,23 +31,21 @@ function Component(props) {
 }
 
 const mainViews = [
-  { name: 'Caja', icon: 'cart', component: Component },
-  { name: 'Product', icon: 'medical-bag', component: Component },
-  { name: 'ReadQR', icon: 'qrcode', component: QrReader2 },
+  { name: 'Caja', icon: 'cart', component: QrReader },
+  { name: 'Productos', icon: 'medical-bag', component: Component },
 ];
 
-const ItemMenu = ({ name, index, navigation, state, icon }) => {
+const ItemMenu = ({ name, index, navigation, state, icon, token }) => {
   return (<Pressable
     px="5"
     py="3"
-    // rounded="md"
     bg={
       index === state.index
         ? 'rgba(6, 182, 212, 0.1)'
         : 'transparent'
     }
     onPress={_ => {
-      navigation.navigate(name);
+      navigation.navigate(name, { navigation, state, token });
     }}>
     <HStack space="7" alignItems="center">
       <Icon
@@ -83,7 +81,7 @@ const CustomDrawerContent = (props) => {
         </Box>
         <VStack divider={<Divider />} space="4">
           <VStack space="3">
-            {props.state.routeNames.map((name, index) => <ItemMenu {...props} icon={Object.fromEntries(mainViews.map(x => [x.name, x.icon]))[name]} name={name} index={index} />)}
+            {props.state.routeNames.map((name, index) => <ItemMenu key={index} {...props} icon={Object.fromEntries(mainViews.map(x => [x.name, x.icon]))[name]} name={name} index={index} />)}
           </VStack>
         </VStack>
       </VStack>
@@ -93,14 +91,14 @@ const CustomDrawerContent = (props) => {
 
 const MyDrawer = ({ navigation }) => {
   const params = navigation.state.params;
-  console.log(params);
   return (
     <Box flex={1}>
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent user={params.user} {...props} />}>
         {mainViews.map(v => (<Drawer.Screen
+          key={v.name}
           name={v.name}
-          initialParams={{ mainNavigation: navigation, ...params }}
+          initialParams={{ mainNavigation: navigation, ...params, token: params.token }}
           component={v.component}
         />))}
       </Drawer.Navigator>
