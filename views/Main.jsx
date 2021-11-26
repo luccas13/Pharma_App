@@ -1,5 +1,6 @@
 import * as React from 'react';
 import QrReader2 from '../views/QrReader2';
+import Detail from '../views/Detail';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -34,6 +35,7 @@ const mainViews = [
   { name: 'Caja', icon: 'cart', component: Component },
   { name: 'Product', icon: 'medical-bag', component: Component },
   { name: 'ReadQR', icon: 'qrcode', component: QrReader2 },
+  { name: 'Product Detail', icon: 'card', component: Detail },
 ];
 
 const ItemMenu = ({ name, index, navigation, state, icon }) => {
